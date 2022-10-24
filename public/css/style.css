@@ -1,0 +1,21 @@
+#fontfamily{
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.gradient {
+    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+  }
+
+.logoimg , .cartimg{
+    height:56px;
+    width:50px
+}
+
+.footerlogo{
+    height: 200px;
+    width:200px
+}
+
+#cartCounter{
+    position: absolute;
+}
