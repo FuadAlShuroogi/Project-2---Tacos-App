@@ -1,0 +1,98 @@
+<div class="pt-24">
+<section class="cart">
+   
+<% if(session.cart) { %>
+<div class="order container mx-auto xl:w-1/2">
+    <% if(messages.error) { %>
+        <div role="alert">
+          <div class="text-center bg-red-500 text-white font-bold rounded-t px-4 py-2">
+            Error!
+          </div>
+          <div class="text-center border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+            <p><%= messages.error %></p>
+          </div>
+        </div>
+        <br>
+        <% } %>
+    <div class="flex items-center border-b border-gray-300 pb-4">
+        
+        <img src="/images/cart1.png">
+        <h1 class="font-bold ml-4 text-2xl">Order Summary</h1>
+    </div>
+
+    
+    <div class="taco-list">
+        <% for(let taco of Object.values(session.cart.items)) { %>
+        <div class="flex items-center my-8">
+            <img class="w-24" src="/images/<%= taco.item.image %>" alt="">
+            <div class="flex-1">
+                <h1><%= taco.item.name %></h1>
+            </div>
+            <span class="flex-1"><%= taco.qty %> Pcs</span>
+            <span class="flex-1 font-bold text-lg">BD <%= taco.item.price * taco.qty %></span>
+            
+            <!-- need to implement this by eod  -->
+             <form action="/cart/delete-cart" method="GET">
+              <input type="hidden" name="itemId" value="<%= taco.item.id %>">  
+                 
+                <button id="deleteBtn" type="submit" class="flex-2 inline-flex items-center px-2 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+            </form>
+            
+        </div>
+        <%  } %>
+
+    </div>
+    <hr>
+    <div class="text-right py-4">
+        <div>
+            <span class="text-lg font-bold">Total Amount:</span>
+            <span class="amount text-xl font-bold ml-2">BD<%= session.cart.totalPrice %></span>
+        </div>
+        <% if(user) { %>
+        <div>
+           
+             
+            <form action="customer/orders" method="POST" class="mt-12">
+                <div class="relative w-1/2 ml-auto mb-4">
+                    <select id="paymentType" name="paymentType" class="text-black bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-0 focus:outline-none">
+                        <!-- <option selected>Choose your payment</option> -->
+                        <option value="cod">Cash on delivery</option>
+                        <option value="card">Pay with card</option>
+                    </select>
+                    </div>
+                <input name="phone" class="text-black bg-gray-50 border border-gray-300 rounded-lg p-2 w-1/2 mb-4 focus:ring-0 focus:outline-none" type="text" placeholder="Phone number" required>
+                <input name="address" class="text-black bg-gray-50 border border-gray-300 rounded-lg p-2 w-1/2 mb-4 focus:ring-0 focus:outline-none" type="text" placeholder="Address" required>
+                <div class="mt-1">
+                    <div id="card-element"></div>
+
+              <button type="submit" class="add-to-cart text-pink-700 border border-ye-700 hover:bg-pink-700 hover:text-white focus:ring-0 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800">ORDER NOW
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        
+                        </button>
+                            
+                </div>
+            </form>
+        </div>
+        <% } else { %>
+        <a href="/login"
+            class="animate-bounce text-xl text-red-600 inline-block cursor-pointer btn-primary px-6 py-2 rounded-full text-white font-bold mt-6">Login
+            to continue</a>
+        <% } %>
+    </div>
+</div>
+<% } else { %>
+<div class="empty-cart">
+    <div class="container mx-auto text-center">
+        <img class="w-3/8 mx-auto" src="/images/emptycartt.png" alt="empty-cart">
+        <a href="/menu" >
+            <button type="button" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2">Order Now</button>
+        </a>
+    </div>
+</div>
+<% } %>
+</section>
+</div>

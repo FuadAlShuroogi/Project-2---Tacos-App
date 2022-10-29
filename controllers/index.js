@@ -8,7 +8,7 @@ router.get('/', async(req,res) => {
 
 router.get('/menu', async(req,res) => {
    const tacos = await db.menu.findAll()
-   res.render('menu', { tacos: tacos })
+   res.render('customer/menu', { tacos: tacos })
 })
 
 router.get('/login', (req,res) => {
@@ -20,6 +20,7 @@ router.get('/login', (req,res) => {
 })
 
 router.post('/logout', (req, res)=>{
+   delete req.session.cart
    req.session.loggedin = false
    res.clearCookie('userId')
    res.redirect('/')

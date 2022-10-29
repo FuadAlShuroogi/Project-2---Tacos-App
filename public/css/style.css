@@ -18,4 +18,14 @@
 
 #cartCounter{
     position: absolute;
+    margin: 0px 0px 64px 45px;
+    background-color: darkorange;
+    color: yellow;
+    width:20px;
+    height:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:50%;
+  
 }

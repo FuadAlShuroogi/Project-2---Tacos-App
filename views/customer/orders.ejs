@@ -1,0 +1,86 @@
+<div class="pt-24">
+    <section class="menu container mx-auto py-8">
+
+        <% if(orders.length) { %>
+            
+        <h1 class="text-center font-bold text-lg mb-4">Here Are All Your Orders</h1>
+
+        <% if(messages.success) { %>
+
+            <div class="flex justify-center p-4 mb-6 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert" id="success-alert">
+                <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Info</span>
+                <div>
+                  <span class="font-medium"><%= messages.success %></span>
+                </div>
+              </div>            
+            <br>
+            <% } %>
+       
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="w-full text-lg text-center text-gray-500 dark:text-gray-400">
+        <thead class="text-xl text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-0">
+                    Order ID
+                </th>
+                <th scope="col" class="px-0">
+                   Order Status
+                </th>
+                <th scope="col" class="px-0">
+                    Phone
+                </th>
+                <th scope="col" class="px-0">
+                    Address
+                </th>
+                <th scope="col" class="py-3 px-2">
+                    Order Date/Time
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+                
+                <% orders.forEach((order) => { %>
+            <tr>
+                <td class="border px-4 py-5 text-blue-400">
+                        <a class="link" href="/customer/orders/<%= order.id %>"><%= order.id %></a>
+                </td>
+                <td class="border px-4 py-5 text-green-900">
+                    <%= order.status.toUpperCase() %>
+                </td>
+                <td class="border px-4 py-5 text-green-900">
+                    <%= order.phone %>
+                </td>
+                <td class="border px-4 py-5 text-green-900">
+                        <%= order.address %>
+                </td>
+                <td class="border px-4 py-5 text-green-900">
+                        <%= moment(order.createdAt).format('MMMM Do YYYY, h:mm:ss a') %>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+</div>
+
+            
+                <% } else { %>
+
+                    <h1 class="text-center font-bold text-3xl">No Tacos 🌮 Orders Found!</h1>
+
+                        <div class="empty-cart">
+                            <div class="container mx-auto text-center">
+                                <img class="w-2/5 mx-auto" src="/images/noorder.png" alt="empty-cart">
+                                <a href="/menu" >
+                                    <button type="button" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2">Order Now</button>
+                                </a>
+                            </div>
+                        </div>
+                    
+                    <% } %>
+        
+                </section>
+                </div>
+
+    

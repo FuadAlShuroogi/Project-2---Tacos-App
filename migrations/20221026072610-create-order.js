@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       items: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
       },
       phone: {
         type: Sequelize.STRING
@@ -18,14 +18,14 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      paymenttype: {
+      paymentType: {
         type: Sequelize.STRING
-      },
-      paymentstatus: {
-        type: Sequelize.BOOLEAN
       },
       status: {
         type: Sequelize.STRING
+      },
+      userId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

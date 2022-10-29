@@ -7,16 +7,35 @@
     <title>TACO</title>
     <link rel="icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <script defer src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    <script defer src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script defer src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <script defer src="/js/script.js"></script>
   </head>
+<style>
 
+
+.flex-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+</style>
   <body class="leading-normal tracking-normal text-white gradient" id="fontfamily">
     <%- include('partials/nav') %>
+
+    <div class="flex-wrapper">
     
       <%- body %>
 
     <%- include('partials/footer') %>
+  </div>
   </body>
 </html>

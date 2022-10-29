@@ -11,19 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.order.belongsTo(models.user)
     }
   }
   order.init({
-    customerId: {
-      type: DataTypes.STRING,
-      ref: 'User',
-      },
-    items: DataTypes.STRING,
+    items: DataTypes.JSON,
     phone: DataTypes.STRING,
     address: DataTypes.STRING,
-    paymenttype: DataTypes.STRING,
-    paymentstatus: DataTypes.BOOLEAN,
-    status: DataTypes.STRING
+    paymentType: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
+    status: {type: DataTypes.STRING , defaultValue:'order_placed'}
   }, {
     sequelize,
     modelName: 'order',

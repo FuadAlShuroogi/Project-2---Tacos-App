@@ -1,5 +1,5 @@
 <nav id="header" class="fixed w-full z-30 top-0 text-white">
-    <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
+    <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-4" style="position:relative ">
       <div class="pl-4 flex items-center">
         <a href="/"> <img class="logoimg" src="/images/logo.png">
           <% if(user) { %>
@@ -17,32 +17,86 @@
       </div>
       <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
         <ul class="list-reset lg:flex justify-end flex-1 items-center">
-          <li class="mr-3">
-            <a class="inline-block py-2 px-4 text-black text-lg font-bold no-underline" href="/menu">Menu</a>
-          </li>
+         
 
           <% if(user) { %>
 
-            <li class="ml-6">
+            <% if(user.role == 'customer') { %>
+
+              <li class="mr-8">
+                <a class="inline-block text-black text-lg font-bold no-underline" href="/menu">Menu</a>
+              </li>
+
+            <li class="mr-8">
+              <a class="text-lg" id="yourOrders" href="customer/orders">My Orders</a>
+            </li>
+
+
+              <li class="mr-8">
                 <form id="logout" action="/logout" method="POST">
                     <a class="text-lg" onclick="document.getElementById('logout').submit()" href="#">Logout</a>
                 </form>
             </li>
+
+            <li><a href="/cart" id="cartanchor" class="inline-block rounded-full flex items-center">
+              <span id="cartCounter" class="text-base font-bold"> <%= session.cart ? session.cart.totalQty : '' %> </span>
+              <img class="cartimg" src="/images/tacocart.png">
+  
+          </a></li>
+
+            <% } %>
+
+            <% if(user.role == 'restaurant') { %>
+
+              <div class="flex items-center md:order-2">
+                <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                  <span class="sr-only">Open user menu</span>
+                  <img class="w-20 h-20 rounded-full" src="/images/enrique.jpeg" alt="user photo">
+                </button>
+                <!-- Dropdown menu -->
+                <div class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                  <div class="py-3 px-4">
+                    <span class="block text-sm text-gray-900 dark:text-white">Enrique Olvera</span>
+                    <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">Enrique@gmail.com</span>
+                  </div>
+                  <ul class="py-1" aria-labelledby="user-menu-button">
+                    <li>
+                      <a href="/restaurant/orders" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Manage Orders</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Manage Taco Menu</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                    </li>
+                    <li>
+                      <form id="logout" action="/logout" method="POST">
+                        <a href="#" onclick="document.getElementById('logout').submit()" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Logout</a>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+    
+                <% } %>
+
+
+
+          
+           
+
+
             <% } else { %>
-              <li class="mr-3">
-                <a class="inline-block text-lg text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="/register">Register</a>
+              <li class="mr-8">
+                <a class="inline-block text-lg text-black no-underline hover:text-gray-800 hover:text-underline" href="/register">Register</a>
               </li>
-              <li class="mr-3">
-                <a class="inline-block text-lg text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="login">Login</a>
+              <li class="mr-8">
+                <a class="inline-block text-lg text-black no-underline hover:text-gray-800 hover:text-underline" href="login">Login</a>
               </li>
             <% } %>
 
-
-          <li class="ml-6"><a href="/cart" class="inline-block px-4 py-2 rounded-full flex items-center">
-            <!-- to complete the work by eod! -->
-            <span id="cartCounter" class="text-2xl font-bold" > </span>
-            <img class="cartimg" src="/images/cart.png">
-        </a></li>
+        </div>
+        </div>
         </ul>
       </div>
     </div>
