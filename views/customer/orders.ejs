@@ -34,7 +34,10 @@
                     Address
                 </th>
                 <th scope="col" class="py-3 px-2">
-                    Order Date/Time
+                    Created Order @ Date/Time
+                </th>
+                <th scope="col" class="py-3 px-2">
+                    Updated Order @ Date/Time
                 </th>
             </tr>
         </thead>
@@ -57,6 +60,10 @@
                 <td class="border px-4 py-5 text-green-900">
                         <%= moment(order.createdAt).format('MMMM Do YYYY, h:mm:ss a') %>
                 </td>
+
+                <td class="border px-4 py-5 text-green-900">
+                    <%= moment(order.updatedAt).format('MMMM Do YYYY, h:mm:ss a') %>
+            </td>
             </tr>
             <% }) %>
         </tbody>

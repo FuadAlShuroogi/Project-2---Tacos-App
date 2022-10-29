@@ -58,8 +58,7 @@ app.use('/', require('./controllers/index'));
 app.use('/users', require('./controllers/users'))
 app.use('/cart', require('./controllers/customer/cart'))
 app.use('/customer', require('./controllers/customer/orders'))
-app.use('/restaurant/orders' ,require('./controllers/restaurant/orders') )
-app.use('/restaurant/status' ,require('./controllers/restaurant/status') )
+app.use('/restaurant/orders', require('./controllers/restaurant/orders') )
 
 app.get('/', (req, res)=>{
     res.render('home')

@@ -6,6 +6,12 @@ QueryTypes = require('sequelize');
 
 router.get('/orders', async(req, res) => {
 
+  let user = await db.user.findByPk(res.locals.userId)
+
+  if(user.role !== 'customer') {
+    return res.redirect('/')
+  }
+
   let userOrders = await res.locals.user.getOrders()
 
     res.header('Cache-Control', 'no-store')
