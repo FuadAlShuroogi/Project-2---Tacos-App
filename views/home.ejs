@@ -6,9 +6,16 @@
               Burrito Taco - Be a lunchtime hero.</h1>
             <p id="home2" class="leading-normal text-2xl mb-8">
               We specialize in traditional Bahrain-inspired flavors and cuisine. We are family-owned and source our food seasonally, sustainably, and locally.</p>
+              <% if(user) { %>
+                <a href="/menu" >
+                  <button type="button" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-2xl px-5 py-2.5 text-center">Order To Your Table?</button>
+                </a>
+                <% } else { %>
               <a href="/login" >
                 <button type="button" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-2xl px-5 py-2.5 text-center">Order To Your Table?</button>
               </a>
+              <% } %>
+
           </div>
           
           <!--Right Col-->

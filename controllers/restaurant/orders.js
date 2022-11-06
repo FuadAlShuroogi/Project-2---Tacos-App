@@ -5,11 +5,20 @@ sequelize = require('sequelize')
 
 router.get('/' , async (req, res) => {
 
-  let user = await db.user.findByPk(res.locals.userId)
+  try {
+    let user = await db.user.findByPk(res.locals.userId)
 
+    if(user == null){
+      return res.redirect('/')
+    }
+
+if(req.body.userId !== undefined){
   if(user.role !== 'restaurant') {
-    console.log("IS THIS BEING CALLED ?")
     return res.redirect('/')
+  }
+}
+  } catch (error) {
+    req.flash('error', error)
   }
   
   db.order.findAll({
@@ -28,44 +37,66 @@ router.get('/' , async (req, res) => {
  })
 
  router.post('/status' ,async(req, res) => {
+  console.log("DID I REACH IN RES ROUTE ?")
 
 let values = {status: req.body.status, };
 let condition = { where :{id: req.body.id}}; 
 
   await db.order.update(values,condition)
+  
+  .then(async (orders) => {
 
-  .then(async r => {
-    req.flash('success', 'Order updated successfully')
+    req.flash('success', 'Order updated successfully!!!')
+    
+    
+    //Emit
+    const eventEmitter = req.app.get('eventEmitter')
+    eventEmitter.emit('orderUpdated', {id: req.body.id, status: req.body.status})
 
-    const orders = await db.order.findAll({order: [['createdAt', 'DESC']]})
+    // delete req.session.cart
+    
+    });   
+    
+    db.order.findAll({
+      where: {
+        status: {[sequelize.Op.not]: 'completed'}
+      },
+      order: [['createdAt', 'DESC']],
+      include: [db.user]
+    }).then((orders) => {
+    
+      res.render('restaurant/orders' , {orders})
 
-res.header('Cache-Control', 'no-store')
-res.render('restaurant/orders', { orders: orders})
-
-
+    });
 })
-
- })
-
+  
  router.delete('/:orderId', async (req,res) => {
+
 
  await db.order.destroy({
       where: { id: req.params.orderId }
-  }).then(async r => {
-    req.flash('success', 'Order deleted successfully')
+  }).then(r => {
+    
+    
+        req.flash('success', 'Order deleted successfully!!!')
 
-    const orders = await db.order.findAll({
+       
+    db.order.findAll({
       where: {
         status: {[sequelize.Op.not]: 'completed'}
-      }
-    , order: [['createdAt', 'DESC']]
+      },
+      order: [['createdAt', 'DESC']],
+      include: [db.user]
+    }).then((orders) => {
+    
+      res.render('restaurant/orders' , {orders})
 
-    })
+    });
+    
 
-res.header('Cache-Control', 'no-store')
-res.render('restaurant/orders', { orders: orders})
-
+    
+  });
 })
-})
+ 
 
 module.exports = router;

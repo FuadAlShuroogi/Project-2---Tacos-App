@@ -2,68 +2,80 @@ const express = require('express'),
 router = express.Router(),
 { json } = require("express")
 
-
 //<-- Need to work on it later -->
 
-// router.post('/delete-cart', async(req,res) => {
+router.post('/delete-cart', async(req,res) => {
 
-//     for(key in req.session.cart) {
-//         if(req.session.cart.hasOwnProperty(key)) {
-//             var value = req.session.cart[key];
-//             // console.log(value)
-//         }
-//     }
+    let reqID = req.body.itemId;
 
-//     // console.log("cart: " + req.session.cart.values + ",itemID: " + req.body.itemId);
+    let price = req.body.price;
+
+    let qty = req.body.qty;
 
 
-// // const tacoId = req.body.itemId;
+    console.log("REQ BODY ID IS  -> " , reqID)
 
-// // let cart = req.session.cart;
-// // console.log(cart)
+    // let cart = req.session.cart.items[reqID];
 
-// // cart.items[tacoId] = {
+    // console.log("CART DELETE IS -> " , cart)
+
+    // sessionStorage.removeItem('key');
+
+
+    console.log("SESSION STORE BEFORE" , req.sessionStore)
+
+
+    // console.log("SESSION STORE NOW " , req.sessionStore)
+
+    let cart = req.session.cart;
+
+    // console.log(cart.totalQty -= 1)
+    // console.log(req.session.cart.totalPrice  - req.body.price)
+
+// console.log(cart.items[reqID])
+
+// const [price , name] = cart.items[reqID];
+// console.log(cart.items[reqID].item.price)
+// console.log(cart.items[reqID].qty)
+
+console.log(price)
+
+
+// let priceAfterDeletion = req.session.cart.totalPrice - price;
+
+
+// console.log(req.body.price)
+    // console.log(req.session.cart.totalPrice - cart.items[reqID].item.price)
+    delete cart.items[reqID]
+
+
+     let totalPrice = cart.totalPrice -= price * qty;
+
+     let totalQty = cart.totalQty -= qty;
+
+
+    // console.log(cart.items[reqID].qty)
+
+
+        // console.log("SESSION STORE NOW " , req.sessionStore)
+
+    //    let qtyAfterDelete = req.session.cart.totalQty - cart.items[reqID].qty
+
+    // const tacoId = req.body.itemId;
+
+     
+        // const isExisting = cart.items.findIndex(p => p.id == tacoId);
+        // if (isExisting >= 0) {
+        //     const deletedProduct = cart.items[isExisting];
+        //     cart.totalPrice -= deletedProduct.price * deletedProduct.qty;
+        //     cart.items.splice(isExisting, 1);
+        // }
     
-// // }
-// // cart.totalQty = 0
-// // cart.totalPrice = 0
-// // console.log("DELETED")
-// // console.log("AFTER")
-// // console.log(cart)
+        // res.render('/cart' ,{ totalPrice: priceAfterDeletion } )
 
-// // return res.json({ totalQty: req.session.cart.totalQty })
+        return res.json({ totalAmt: totalPrice , totalQty : totalQty  })
 
-// // res.redirect('/cart')
-
-// })
-// router.get('/delete-cart', function(req, res, next) {
-//     console.log("WHERE AM I ?")
-
-//     console.log(req.session.cart)
-
-//     let cart = req.session.cart;
-
-//     console.log(Object.values(cart))
-
-//     // delete req.session.cart
-
-//     // req.flash('error', 'ITEM DELETED!')
-//     // res.render('customers/cart')                    
-                    
-//     // var productId = req.body.itemId;
-//     // var cart = req.session.cart ? req.session.cart : {};
-   
-//     // delete req.session.cart;
-//     // req.session.cart = cart;
-//     // console.log("REACHED IN REMOVE" + cart)
-//     // res.redirect('/cart');
-
-//     // return res.render('./customers/cart', {
-//     //     tacos: null
-//     //    });
-
-    
-//    });
+})
 
 router.get('/', async(req,res) => res.render('customer/cart'))
 
@@ -77,9 +89,8 @@ if (!req.session.cart) {
     }
 }
 
-let cart = req.session.cart;
 
-console.log(cart)
+let cart = req.session.cart;
 
 // check if item exist or not and based on it increment the qty ,price 
 if(!cart.items[req.body.id]) {

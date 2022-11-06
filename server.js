@@ -8,9 +8,15 @@ cookieParser = require('cookie-parser'),
 flash = require('express-flash'),
 session = require('express-session'),
 bodyParser = require('body-parser'),
-methodOverride = require('method-override')
+methodOverride = require('method-override'),
+Emitter = require('events')
+
 
 app.use(cookieParser())
+
+const eventEmitter = new Emitter()
+app.set('eventEmitter', eventEmitter)
+
 app.use(session({ cookie: { maxAge: 900000 }, //15min  
     secret: 'SECSECRET',
     resave: false, 
@@ -36,12 +42,6 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
 app.use(bodyParser.json())
-
-
-app.post('/', function(req, res){
-    console.dir(req.body);
-    res.send("test");
-}); 
 
 app.use(async (req, res, next)=>{
     if(req.cookies.userId) {
@@ -69,5 +69,27 @@ app.use((req, res) => {
        .send('<img src="/images/404.gif" style=" display: block; margin-left: auto; margin-right: auto;width: 50%;">')
 })
 
-app.listen(PORT , () => { console.log(`Hello from 🇧🇭 on port ${PORT}`)})
+
+// Socket
+
+const io = require('socket.io')(app.listen(PORT , () => { console.log(`Hello from 🇧🇭 on port ${PORT}`),{ cors: { origin: "*" }}
+}))
+io.on('connection', (socket) => {
+      // Join
+      socket.on('join', (orderId) => {
+        socket.join(orderId)
+        console.log("ORDER ID IS " + orderId)
+      })
+})
+
+eventEmitter.on('orderUpdated', (data) => {
+    io.to(`order${data.id}`).emit('orderUpdated', data)
+
+    console.log("DATA IS " , data)
+    console.log("IO.TO is " , `${data.id}`)
+})
+
+eventEmitter.on('orderPlaced', (data) => {
+    io.to('restaurantRoom').emit('orderPlaced', data)
+})
 

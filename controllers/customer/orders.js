@@ -1,113 +1,66 @@
 const express = require('express'),
 router = express.Router(),
 moment = require('moment'),
-db = require('../../models'),
-QueryTypes = require('sequelize');
+db = require('../../models')
 
 router.get('/orders', async(req, res) => {
 
   let user = await db.user.findByPk(res.locals.userId)
 
-  if(user.role !== 'customer') {
+  if(user == null){
     return res.redirect('/')
   }
 
-  let userOrders = await res.locals.user.getOrders()
+    if(req.body.userId !== undefined){
+  if(user.role !== 'customer') {
+    return res.redirect('/')
+  }
+}
 
+  let userOrders = await res.locals.user.getOrders({order: [['createdAt', 'DESC']]})
+  console.log("USERORDERS ARE --> " , userOrders)
     res.header('Cache-Control', 'no-store')
     res.render('customer/orders', { orders: userOrders , moment: moment })
 
 })
 
-// router.get('/customer/orders', async(req,res)=> {
-
-//     const orders = await db.order.findAll({
-//       order: [['createdAt', 'DESC']]
-//     });
-
-//     res.header('Cache-Control', 'no-store')
-//     res.render('customer/orders', { orders: orders , moment: moment })
-
-// })
-
-// router.post('/customer/orders', async(req,res)=> {
-
-//     const { phone, address, paymentType } = req.body
-    
-//     if(phone == '' || address == '') {
-//         req.flash('error', 'All fields are required!')
-//         res.render('customer/cart')
-//     }    
-//             else{
-    
-//             db.order.create({
-//                 // customerId: req.locals.userID,
-//                 userId: res.locals.userID,
-//                 items: req.session.cart.items,
-//                 phone,
-//                 address,
-//                 paymentType : paymentType
-//               }).then(async result => {
-//                 req.flash('success', 'Order placed successfully')
-//                 delete req.session.cart
-//                 let user = res.locals.userID
-                
-//                 const orders = await db.order.findAll({
-//                     where: {
-//                     customerId : user
-//                   }, order: [['createdAt', 'DESC']]
-//                   })
-    
-//         res.header('Cache-Control', 'no-store')
-//         res.render('customer/orders', { orders: orders , moment: moment })
-    
-//               })
-//             }  
-// })
-
-router.post('/orders', async (req, res, next) => {
+router.post('/orders', async (req, res) => {
 
 const { phone, address, paymentType } = req.body
 
-if(phone == '' || address == '') {
-    req.flash('error', 'All fields are required!')
-    res.render('customer/cart')
+if(!phone || !address) {
+  return res.status(422).json({ message : 'All fields are required' });
 }
-
-        else{
 
           let user = res.locals.userId
 
-let newOrder = 
-        db.order.create({
+            await db.order.create({
             userId: user,
             items: req.session.cart.items,
             phone,
             address,
             paymentType : paymentType
-          }).then(async result => {
-            req.flash('success', 'Order placed successfully')
-            delete req.session.cart
+          }, {include: [db.user]})
+            
+            .then(async (orders) => {
 
-            console.log(newOrder)
-          
-            const orders = await db.order.findAll({
-                where: {
-                  userId : user
-              }, order: [['createdAt', 'DESC']]
-              })
-
-    res.header('Cache-Control', 'no-store')
-    res.render('customer/orders', { orders: orders , moment: moment })
-    
+              req.flash('success', 'Order placed successfully!!!')
+              delete req.session.cart
+              
+              //Emit
+              const eventEmitter = req.app.get('eventEmitter')
+              eventEmitter.emit('orderPlaced', orders)
+              return res.redirect('/customer/orders')  
+              });         
           })
-        }       
-        });
-    
+
+
     router.get('/orders/:id' , async (req, res) =>{
         const order = await db.order.findByPk(req.params.id);
-
-        res.render('customer/singleOrder', { order })      
+        if(res.locals.userId === order.userId) {
+        return res.render('customer/trackorder', { order })     
+        }
+      return res.redirect('/')     
     } )
 
     module.exports = router;

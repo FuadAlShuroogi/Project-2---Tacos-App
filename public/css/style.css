@@ -37,33 +37,37 @@
   justify-content: space-between;
 }
 
-/* <------- single order page ------------> */
+/* <------- Track Order ------------> */
 
+section.status {
+  background: #F8F8F8;
+  min-height: calc(100vh - 86px);
+}
+.status-box {
+  padding: 60px 0 0;
+}
 .status-box ul {
   margin-left: 84px;
 }
-
 .status-box ul li span {
   position: relative;
-  padding-left: 20px;
+  padding-left: 30px;
 }
-
+/* Dots */
 .status-box ul li span:after {
-  content: "";
+  content: '';
   position: absolute;
   left: -10px;
-  top: 50%;
-  background: #FF512F;
-  background: -webkit-linear-gradient(to bottom, #DD2476, #FF512F);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #DD2476, #FF512F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  top:50%;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0 0 1px 10px #F8F8F8;
+  transform: translateY(-5px);
+  box-shadow:0 0 1px 10px #F8F8F8;
 }
 
-.status-box ul li span:before {
+/* Icons */
+.status-box ul li span:before{
   font-family: "Line Awesome Free";
   font-size: 46px;
   font-weight: 600;
@@ -71,10 +75,7 @@
   left: -90px;
   top: 50%;
   transform: translateY(-50%);
-  color: #CAC531;
-  color: -webkit-linear-gradient(to bottom, #F3F9A7, #CAC531);  /* Chrome 10-25, Safari 5.1-6 */
-  color: linear-gradient(to bottom, #F3F9A7, #CAC531); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  color: inherit;
 }
 
 .status-box ul li:nth-child(1) span:before {
@@ -100,44 +101,64 @@
 .status-box ul li {
   position: relative;
 }
-
+/* Line */
 .status-box ul li:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -6px;
-  width: 4px;
-  height: 100%;
-  background: #e1eec3;
-  background: -webkit-linear-gradient(to bottom, #f05053, #e1eec3);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #f05053, #e1eec3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  margin-top: 10px;
+ content: '';
+ position: absolute;
+ top: 0;
+ left: -6px;
+ width: 2px;
+ height: 100%;
+ background: #ccc;
 }
 
 .status-box ul li:nth-child(5) span:after {
-  box-shadow: 0 20px 1px 20px #F8F8F8;
+  box-shadow:0 0px 1px 10px #F8F8F8;
+}
+
+/* line */
+.status-box ul li.step-completed:before {
+  background: #ccc;
+}
+
+/* dots */
+.status-box ul li.step-completed span:after {
+  background: #ccc;
+}
+
+ /* text */
+.status-box ul li.step-completed span {
+  color: #ccc;
+}
+
+/* Current status */
+.status-box ul li.current span {
+  color: #FFDD00
+}
+
+.status-box ul li.current span:after {
+  background: #FFDD00;
 }
 
 .status-box ul li small {
   float: right;
-  font-size: 14px;
-  margin-top: 8px;
+  font-size: 15px;
+  margin-top: 0px;
 }
 
-@media (max-width: 1060px) {
+@media(max-width:1060px) {
   .container {
-    max-width: 90%;
+      max-width: 90%;
   }
-
   table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+     display: block;
+     overflow-x: auto;
+     white-space: nowrap;
   }
 }
 
-@media (max-width: 768px) {
+@media(max-width: 768px) {
   .status-box ul li span:before {
-    font-size: 34px;
+      font-size: 34px;
   }
 }
