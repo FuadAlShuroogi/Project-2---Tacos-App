@@ -1,3 +1,4 @@
+<a name="readme-top"></a>
 <div align="center">
 
   <h1>GA SEI - Project 2</h1>
@@ -21,7 +22,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#camera-screenshot">Screenshot</a></li>
+    <li><a href="#camera-screenshots">Screenshots</a></li>
     <li><a href="#compass-a-link-to-the-deployed-live-site">Live Site</a></li>
     <li><a href="#wave-approach-taken">Approach Taken</a></li>
     <li><a href="#space_invader-technologies-used">Technologies Used</a></li>
@@ -65,29 +66,43 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 ### Installation
 
-1.To run this project, you will need to add the following environment variables to your .env file
-
-`SECRET="TEST"
-
-2.Clone the project
+1.Clone the project
 
 git clone https://github.com/FuadAlShuroogi/Project-2---Tacos-App.git
 
-3.Go to the project directory
+2.Go to the project directory
 
   cd Project-2---Tacos-App
 
-4.Install dependencies
+3.Install dependencies
 
   npm install
+  
+4.To run this project, you will need to add the following environment variables to your .env file
 
-5.Start the server
+`SECRET="TEST"
+  
+5.Migrate the DB by running following command :- 
+  
+ sequelize db:migrate
+
+6.Start the server
 
   npm start
+  
+7. You can register yourself as a customer . 
+  
+8. For restaurant you can use the following credientials:-
+  
+  email address - restaurant@gmail.com
+  
+  password - test1234
+  
+And then try ordering some tacos 🌮 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
   
-## :camera: Screenshot
+## :camera: Screenshots
 
 <div align="center"> 
   
@@ -185,8 +200,6 @@ git clone https://github.com/FuadAlShuroogi/Project-2---Tacos-App.git
 ### :camera: Wire Frames
 
 <div align="center"> 
-  
-**Wire Frames**
 
 ![Wireframes](https://user-images.githubusercontent.com/31391274/200259676-e9158e70-fbb8-419f-97be-8cabd38674d3.jpg)
   
@@ -225,7 +238,7 @@ Route | Method | Response
 `/customer/orders` | get | gets the order list .
 `/customer/orders/:id` | get | displays the track order page which contains the statuses of the orders .
 `/cart/delete-cart` | post | deletes the cart from session ، updates the total amount and total quantity along with the cart item indicator . 
-`/cart/update-cart` | post | creates cart session , maintaing qty and total amount .
+`/cart/update-cart` | post | creates cart session , maintaining qty and total amount .
 `/menu` | get | fetches menu items from database .
 `/restaurant/orders` | get | fetches all uncompleted order list .
 `/restaurant/orders/status` | post | updates the order status .
