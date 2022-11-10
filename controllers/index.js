@@ -25,10 +25,6 @@ router.post('/logout', (req, res)=>{
    res.clearCookie('userId')
    res.redirect('/')
 })
-
-router.get('/logout', (req, res)=>{
-   res.redirect('/')
-})
   
 router.get('/register', async(req,res) => {
 res.render('users/register')

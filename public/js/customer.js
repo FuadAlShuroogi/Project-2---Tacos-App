@@ -33,11 +33,31 @@ function deleteCart(dataPrice , dataId, qty) {
 
 
   }).then(res => {
-    document.getElementById('cartCounter').style.backgroundColor = 'darkorange'
-    document.getElementById('totAmt').innerText = res.data.totalAmt
-    cartCounter.innerText = res.data.totalQty
-       toastr.options.timeOut = 3000;
-       toastr.error('🌮 Deleted 🌮');
+
+    if(document.querySelectorAll('#deleteBtn').length == 0){
+     
+      cartCounter.innerText = null;
+      document.getElementById('cartContainer').innerHTML = `<div class="empty-cart">
+      <div class="container mx-auto text-center">
+          <img class="w-3/8 mx-auto" src="/images/emptycartt.png" alt="empty-cart">
+          <a href="/menu" >
+              <button type="button" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2">Order Now</button>
+          </a>
+      </div>
+    </div>`
+    toastr.options.timeOut = 3000;
+    toastr.error('🌮 Deleted 🌮');
+    } else{
+      document.getElementById('cartCounter').style.backgroundColor = 'darkorange'
+      document.getElementById('totAmt').innerText = "BD" + res.data.totalAmt
+      cartCounter.innerText = res.data.totalQty
+         toastr.options.timeOut = 3000;
+         toastr.error('🌮 Deleted 🌮');
+    }
+
+
+
+    
    }).catch(err => {
     toastr.error('ERROR!' , err);
    })
@@ -52,9 +72,11 @@ deleteBtn.forEach((btn) => {
 
     deleteCart(dataPrice , dataId,qty)
    btn.parentNode.remove()
-    
+
   })
 })
+
+
 
 const alertMsg = document.querySelector('#success-alert')
 if(alertMsg) {
@@ -123,11 +145,10 @@ let restaurantAreaPath = window.location.pathname
 if(restaurantAreaPath.includes('restaurant')) {
 
    restaurant(socket)
-   socket.emit('join', 'restaurantAreaPath')
+   socket.emit('join', 'restaurantRoom')
 
 }
 
-   
    socket.on('orderUpdated', (data) => {
      const updatedOrder = { ...order }
      updatedOrder.updatedAt = moment().format()
@@ -136,5 +157,7 @@ if(restaurantAreaPath.includes('restaurant')) {
      toastr.options.timeOut = 2000;
       toastr.success('🌮 Order Status Updated! 🌮');
   })
+
+  
 
 

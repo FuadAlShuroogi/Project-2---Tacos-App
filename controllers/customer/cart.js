@@ -1,7 +1,5 @@
 const express = require('express'),
-router = express.Router(),
-{ json } = require("express")
-
+router = express.Router()
 //<-- Need to work on it later -->
 
 router.post('/delete-cart', async(req,res) => {
@@ -13,7 +11,7 @@ router.post('/delete-cart', async(req,res) => {
     let qty = req.body.qty;
 
 
-    console.log("REQ BODY ID IS  -> " , reqID)
+    // console.log("REQ BODY ID IS  -> " , reqID)
 
     // let cart = req.session.cart.items[reqID];
 
@@ -22,7 +20,7 @@ router.post('/delete-cart', async(req,res) => {
     // sessionStorage.removeItem('key');
 
 
-    console.log("SESSION STORE BEFORE" , req.sessionStore)
+    // console.log("SESSION STORE BEFORE" , req.sessionStore)
 
 
     // console.log("SESSION STORE NOW " , req.sessionStore)
@@ -38,7 +36,7 @@ router.post('/delete-cart', async(req,res) => {
 // console.log(cart.items[reqID].item.price)
 // console.log(cart.items[reqID].qty)
 
-console.log(price)
+// console.log(price)
 
 
 // let priceAfterDeletion = req.session.cart.totalPrice - price;
@@ -81,6 +79,8 @@ router.get('/', async(req,res) => res.render('customer/cart'))
 
 router.post('/update-cart', async(req,res) => {
 
+//<-- Create the cart session -->
+
 if (!req.session.cart) {
     req.session.cart = {
         items: {},
@@ -88,7 +88,7 @@ if (!req.session.cart) {
         totalPrice: 0
     }
 }
-
+// <-- CART CREATED -->
 
 let cart = req.session.cart;
 
@@ -106,8 +106,8 @@ if(!cart.items[req.body.id]) {
     cart.totalQty += 1;
     cart.totalPrice += req.body.price;
 }
-return res.json({ totalQty: req.session.cart.totalQty })
 
+return res.json({ totalQty: req.session.cart.totalQty })
 
 })
 

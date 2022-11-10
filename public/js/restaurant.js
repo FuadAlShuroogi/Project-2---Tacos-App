@@ -2,19 +2,25 @@ export function restaurant(socket) {
     const orderTableBody = document.querySelector('#orderTableBody')
     let orders = []
     let markup
-
+  
     axios.get('/restaurant/orders', {
         headers: {
             "X-Requested-With": "XMLHttpRequest"
         }
     }).then(res => {
-        orders = res.data
+        //Seems a logic should be implemented here to handle first order on load of restaurant orders list , current workaround for it is to reload the page.
+        // if(res.data.length > 0){
+            orders = res.data       
         markup = generateMarkup(orders)
         orderTableBody.innerHTML = markup
+        // } else{
+            // toastr.warning('🌮 Service temp unavailable , Please try again later! 🌮', {timeOut: 4000});
+        // }
+       
     }).catch(err => {
         console.log(err)
     })
-
+  
     function renderItems(items) {
         let parsedItems = Object.values(items)
         return parsedItems.map((menuItem) => {
@@ -23,14 +29,14 @@ export function restaurant(socket) {
             `
         }).join('')
       }
-
+  
     function generateMarkup(orders) {
         return orders.map(order => {
             return `
                 <tr>
                 <td class="border px-4 py-5 text-green-900">${ order.id }</td>
                 <td class="border px-4 py-5 text-green-900">${ order.user.name }</td>
-
+  
                 <td class="border px-4 py-5 text-green-900">
                     <div>${ renderItems(order.items) }</div>
                 </td>
@@ -76,50 +82,48 @@ export function restaurant(socket) {
             </td>    
             </tr>    
         
-`
+  `
+  
         }).join('')
+        
+        
     }
-
-
-    // Socket
-    socket.on('orderPlaced', (order) => {
-        initAdmin(socket)
+    
+     // Socket
+     socket.on('orderPlaced', () => {
+        restaurant(socket)
         toastr.options = {
             "preventDuplicates": true,
             "preventOpenDuplicates": true
             };
         toastr.success('🌮 NEW ORDER! 🌮', {timeOut: 2000});
-        
     })
 
 
-    function hasToastr(message){
 
-        var hasToastr = false;
-      
-        var $toastContainer = $('#toast-container');
-        if ($toastContainer.length > 0) {
-          var $successToastr = $toastContainer.find('.toast-success');
-          if ($successToastr.length > 0) {
-            var currentText = $successToastr.find('.toast-message').text();
-            var areEqual = message.toUpperCase() === currentText.toUpperCase();
-            if (areEqual) {
-                hasToastr = true;
-            }
-          }
+function hasToastr(message){
+
+    var hasToastr = false;
+  
+    var $toastContainer = $('#toast-container');
+    if ($toastContainer.length > 0) {
+      var $successToastr = $toastContainer.find('.toast-success');
+      if ($successToastr.length > 0) {
+        var currentText = $successToastr.find('.toast-message').text();
+        var areEqual = message.toUpperCase() === currentText.toUpperCase();
+        if (areEqual) {
+            hasToastr = true;
         }
+      }
+    }
+  
+    return hasToastr;
+  }
+
       
-        return hasToastr;
-      }
-
-          
-      //Usage
-      var message = '🌮 NEW ORDER! 🌮';
-      if (hasToastr(message)) {
-          toastr.success(message, title, ToastrOptions);
-      }
-
-
+  //Usage
+  var message = '🌮 NEW ORDER! 🌮';
+  if (hasToastr(message)) {
+      toastr.success(message, ToastrOptions);
+  }
 }
-
-

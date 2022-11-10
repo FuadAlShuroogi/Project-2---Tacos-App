@@ -2,7 +2,7 @@
 <section class="cart">
    
 <% if(session.cart) { %>
-<div class="order container mx-auto xl:w-1/2">
+<div class="order container mx-auto xl:w-1/2" id="cartContainer">
     <% if(messages.error) { %>
         <div role="alert">
           <div class="text-center bg-red-500 text-white font-bold rounded-t px-4 py-2">

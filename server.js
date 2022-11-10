@@ -90,6 +90,7 @@ eventEmitter.on('orderUpdated', (data) => {
 })
 
 eventEmitter.on('orderPlaced', (data) => {
+    // console.log("THE DATA IN EVENT EMITTER SERVER FILE IS " , data)
     io.to('restaurantRoom').emit('orderPlaced', data)
 })
 

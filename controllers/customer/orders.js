@@ -18,7 +18,7 @@ router.get('/orders', async(req, res) => {
 }
 
   let userOrders = await res.locals.user.getOrders({order: [['createdAt', 'DESC']]})
-  console.log("USERORDERS ARE --> " , userOrders)
+  // console.log("USERORDERS ARE --> " , userOrders)
     res.header('Cache-Control', 'no-store')
     res.render('customer/orders', { orders: userOrders , moment: moment })
 
@@ -49,6 +49,7 @@ if(!phone || !address) {
               
               //Emit
               const eventEmitter = req.app.get('eventEmitter')
+              // console.log(eventEmitter)
               eventEmitter.emit('orderPlaced', orders)
               return res.redirect('/customer/orders')  
               });         
